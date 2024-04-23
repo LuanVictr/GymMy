@@ -15,3 +15,5 @@ sequelize
   .catch(err => {
     console.error('Erro ao conectar:', err);
   });
+
+  export default sequelize;
