@@ -10,6 +10,6 @@ app.use(bodyParser.json({limit: '10mb'}));
 
 app.use(express.json());
 app.use(router);
-app.use(celebrateError)
+app.use(celebrateError);
 
 export default app;
