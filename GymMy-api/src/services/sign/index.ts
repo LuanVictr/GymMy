@@ -6,7 +6,7 @@ interface IUserCreate {
   password: string,
 }
 
-async function registerUser(newUserInfo: IUserCreate) {
+async function registerUserService(newUserInfo: IUserCreate) {
   try {
     const newUser = await User.create(newUserInfo);
     return newUser;
@@ -14,3 +14,5 @@ async function registerUser(newUserInfo: IUserCreate) {
     console.log(error)
   }
 }
+
+export default registerUserService;
