@@ -21,7 +21,6 @@ interface UserCreationAttributes extends Optional<IUser, 'id'> {}
         allowNull: false,
         type: DataTypes.UUID,
         primaryKey: true,
-        autoIncrement: false,
         defaultValue: UUIDV4,
       },
       name: DataTypes.STRING,
