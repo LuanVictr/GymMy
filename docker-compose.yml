@@ -1,0 +1,25 @@
+services:
+  api:
+    container_name: gymmy-api
+    build: ./gymmy-api
+    restart: always
+    ports:
+      - 3001:3001
+    env_file:
+      - ./gymmy-api/.env
+    volumes:
+      - gymmy-api:containerPath:/api
+  ui:
+    container_name: gymmy-ui
+    build: ./gymmy
+    restart: always
+    ports:
+      - 3000:3000
+    env_file:
+      - ./gymmy/.env
+    volumes:
+      - gymmy:containerPath:/ui
+
+  volumes:
+    gymmy-api:
+    gymmy:
