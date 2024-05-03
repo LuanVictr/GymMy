@@ -3,8 +3,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const sequelize_1 = require("sequelize");
 const dotenv_1 = __importDefault(require("dotenv"));
-const app_1 = __importDefault(require("./app"));
 dotenv_1.default.config();
-const port = process.env.PORT ?? 3001;
-app_1.default.listen(port, () => console.log(`Server online on port ${port}`));
+const sequelize = new sequelize_1.Sequelize(`mysql://${process.env.MYSQL_USERNAME}:${process.env.MYSQL_PASSWORD}@${process.env.MYSQL_HOSTNAME}:${process.env.MYSQL_PORT}/gymmy`);
+exports.default = sequelize;

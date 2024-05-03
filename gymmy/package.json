@@ -25,6 +25,7 @@
     "react-chat-elements": "^12.0.14",
     "react-dom": "18.2.0",
     "react-icons": "^5.1.0",
+    "sharp": "^0.33.3",
     "sweetalert2": "^11.10.8",
     "typescript": "5.4.5",
     "use-media-antd-query": "^1.1.0"

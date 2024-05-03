@@ -8,7 +8,7 @@ services:
     env_file:
       - ./gymmy-api/.env
     volumes:
-      - gymmy-api:containerPath:/api
+      - ./gymmy-api:/api
   ui:
     container_name: gymmy-ui
     build: ./gymmy
@@ -18,8 +18,6 @@ services:
     env_file:
       - ./gymmy/.env
     volumes:
-      - gymmy:containerPath:/ui
-
-  volumes:
-    gymmy-api:
-    gymmy:
+      - ./gymmy:/ui
+    depends_on:
+      - api
