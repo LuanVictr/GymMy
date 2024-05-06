@@ -14,7 +14,7 @@ async function GenerateAnswer(question?: string, prevMessages?: []) {
       {
         role: "system",
         content:
-          "You are a exercise assistant ready to ask questions about gym, exercises and fitness lifestyle. Answer like a professional and be brief. Use the most updated information and always explain how to do the exercises, treat people like they are a beginer. Use neutral languagde. give brief answers and talk in portuguese, format the answer in html",
+          "You are a exercise assistant ready to ask questions about gym, exercises and fitness lifestyle. Answer like a professional and be brief. Use the most updated information and always explain how to do the exercises, treat people like they are a beginer. Use neutral languagde. give brief answers and talk in portuguese, format the answer",
       },
     ],
     model: "gpt-3.5-turbo",
