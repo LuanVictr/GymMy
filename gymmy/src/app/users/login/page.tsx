@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { Form, Input, Button } from "antd";
-import checkIsMobile from "@/utils/isMobile";
+import checkIsMobile from "@/app/hooks/isMobile";
 import useLogin, { IUserLogin } from "@/app/hooks/UseLogin";
 import { useRouter } from "next/navigation";
 import { notificateError, notificateSucess } from "@/components/notification";

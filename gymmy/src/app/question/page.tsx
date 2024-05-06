@@ -6,7 +6,7 @@ import "react-chat-elements/dist/main.css"
 import { MessageBox } from "react-chat-elements";
 import { Flex } from 'antd';
 import useUser from '../hooks/useUser';
-import checkIsMobile from '@/utils/isMobile';
+import checkIsMobile from '@/app/hooks/isMobile';
 
 
 function QuestionPage () {

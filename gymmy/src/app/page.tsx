@@ -4,13 +4,19 @@ import { Button, Flex } from "antd";
 import Header from "@/components/header";
 import useMedia from "use-media-antd-query";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import checkIsMobile from "./hooks/isMobile";
 
 export default function Home() {
   
-  const size = useMedia();
   const history = useRouter();
+  const [isMobile, setIsMobile] = useState<boolean>()
 
-  const isMobile = size === 'xs' || size === 'sm';
+  useEffect(() => {
+    const isMobile = checkIsMobile();
+
+    setIsMobile(isMobile)
+  }, [])
 
   return (
     <Flex vertical>
