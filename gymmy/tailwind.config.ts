@@ -9,6 +9,10 @@ const config: Config = {
     './src/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
+    colors: {
+      'primary-background': '#2B2D38',
+      'primary-color': '#dc396c',
+    },
   },
   plugins: [],
 };

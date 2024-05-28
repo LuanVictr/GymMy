@@ -5,7 +5,7 @@ export default function useUser() {
   if (typeof window !== 'undefined') {
     dotenv.config();
     
-    const secret = process.env.REACT_APP_JWT_SECRET || '3Gk7sR2P8eF';
+    const secret = process.env.NEXT_PUBLIC_JWT_SECRET || '';
     const token = localStorage.getItem('token') || '';
 
     if (token) {
