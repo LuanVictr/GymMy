@@ -36,14 +36,13 @@ export default function RootLayout({
         <meta
           http-equiv="Content-Security-Policy"
           content="upgrade-insecure-requests"
+        />
+        <body
+          className={quicksand.className}
+          style={{ height: "100%", margin: 0, padding: 0 }}
         >
-          <body
-            className={quicksand.className}
-            style={{ height: "100%", margin: 0, padding: 0 }}
-          >
-            <Providers>{children}</Providers>
-          </body>
-        </meta>
+          <Providers>{children}</Providers>
+        </body>
       </html>
     </ConfigProvider>
   );
