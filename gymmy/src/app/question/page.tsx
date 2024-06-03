@@ -1,6 +1,6 @@
 "use client";
 
-import "@chatscope/chat-ui-kit-styles/dist/default/styles.min.css";
+import "./styles.min.css";
 
 import { useEffect, useRef, useState } from "react";
 
