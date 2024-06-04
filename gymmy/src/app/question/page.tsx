@@ -23,15 +23,26 @@ import {
 import useQuestion from "../hooks/useQuestion";
 import { FaSignOutAlt } from "react-icons/fa";
 import { useRouter } from "next/navigation";
+import { notificateError } from "@/components/notification";
 
 function QuestionPage() {
   const user = useUser();
+  const [haveUser, setHaveUser] = useState(false);
   const inputRef = useRef<any>(null);
   const [msgInputValue, setMsgInputValue] = useState("");
   const [messages, setMessages] = useState<any>([{message: 'Opa, sou o Gymmy, me pergunte qualquer coisa sobre exercícios que eu te ajudo.', direction: 'ongoing'}]);
   const {mutate: requestQuestion, isPending } = useQuestion();
   const [isMobile, setIsMobile] = useState<boolean>();
   const history = useRouter();
+
+  useEffect(() => {
+    if(!user) {
+      notificateError('Sua sessão expirou, faça login novamente')
+      history.push('/users/login');
+    } else {
+      setHaveUser(true);
+    }
+  }, []);
 
   const handleSend = (message: string) => {
     setMessages( (prevMessages:any) => [...prevMessages, { message, direction: "outgoing" }]);
@@ -45,7 +56,6 @@ function QuestionPage() {
         console.log('deu bom n')
       }
     });
-    
 };
 
   useEffect(() => {
@@ -55,14 +65,14 @@ function QuestionPage() {
   }, []);
 
   useEffect(() => {
-    Swal.fire({
+    haveUser && Swal.fire({
       title: "Importante",
       text: "O Gymmy é uma ferramenta valiosa para seus treinos, porém é fundamental lembrar que ele não substitui a orientação de um profissional habilitado. Consulte sempre um especialista para garantir sua segurança e eficácia nos treinos. Bom treino!",
       icon: "warning",
       confirmButtonText: "Entendi",
       confirmButtonColor: "black",
     });
-  }, []);
+  }, [haveUser]);
 
   return (
     <Flex vertical>
