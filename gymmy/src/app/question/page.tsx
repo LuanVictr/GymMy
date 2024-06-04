@@ -28,11 +28,10 @@ function QuestionPage() {
   const user = useUser();
   const inputRef = useRef<any>(null);
   const [msgInputValue, setMsgInputValue] = useState("");
-  const [messages, setMessages] = useState<any>([{message: 'Opa, sou o Gymmy, como posso te ajudar hoje?', direction: 'ongoing'}]);
+  const [messages, setMessages] = useState<any>([{message: 'Opa, sou o Gymmy, me pergunte qualquer coisa sobre exercícios que eu te ajudo.', direction: 'ongoing'}]);
   const {mutate: requestQuestion, isPending } = useQuestion();
   const [isMobile, setIsMobile] = useState<boolean>();
   const history = useRouter();
-
 
   const handleSend = (message: string) => {
     setMessages( (prevMessages:any) => [...prevMessages, { message, direction: "outgoing" }]);
@@ -87,7 +86,7 @@ function QuestionPage() {
         <ChatContainer
           style={{ height: "80vh", width: "100%" }}
         >
-          <MessageList typingIndicator={isPending}>
+          <MessageList typingIndicator={isPending && <TypingIndicator content="Gymmy está digitando" />}>
             {messages.map((m: any, i: any) => (
               <Message key={i} model={m} />
             ))}
