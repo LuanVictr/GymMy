@@ -1,9 +1,8 @@
 
 function checkIsMobile() {
   if(typeof window !== 'undefined') {
-    return window.innerWidth < 768;
+    return window.innerWidth < 800;
   }
-
   return false;
 }
 

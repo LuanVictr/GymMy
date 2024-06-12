@@ -5,7 +5,7 @@ import { Form, Input, Button } from "antd";
 import checkIsMobile from "@/app/hooks/isMobile";
 import useLogin, { IUserLogin } from "@/app/hooks/UseLogin";
 import { useRouter } from "next/navigation";
-import { notificateError, notificateSucess } from "@/components/notification";
+import { notificateError, notificateSucess } from "@/app/components/notification";
 
 export default function Login() {
   const [form] = Form.useForm();

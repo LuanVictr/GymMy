@@ -9,6 +9,7 @@ export interface IUserLogin {
 export default function useLogin() {
   const loginUser = async (userInfo:IUserLogin) => {
     const data = await axiosHttp.post('/login', userInfo);
+    console.log(data);
     return data.data.token;
   }
   return(

@@ -1,14 +1,13 @@
 "use client";
 
-import "./styles.min.css";
+import "../styles.min.css";
 import { useEffect, useRef, useState } from "react";
 import Swal from "sweetalert2";
 import "react-chat-elements/dist/main.css";
 import { Flex, Image, Button } from "antd";
 import { LogoutOutlined } from "@ant-design/icons";
-import useUser from "../hooks/useUser";
+import useUser from "../../hooks/useUser";
 import checkIsMobile from "@/app/hooks/isMobile";
-import { TfiMenu } from "react-icons/tfi";
 import {
   ChatContainer,
   MessageList,
@@ -17,35 +16,61 @@ import {
   TypingIndicator,
   MessageSeparator,
 } from "@chatscope/chat-ui-kit-react";
-import useQuestion from "../hooks/useQuestion";
+import useQuestion from "../../hooks/useQuestion";
 import { useRouter } from "next/navigation";
 import { notificateError } from "@/app/components/notification";
-import useAllConversationsFromUser from "../hooks/UseConversation";
-import ConversationsDrawer from "../components/conversationsDrawer";
-import useRegisterMessages from "../hooks/UseRegisterMessage";
+import useAllConversationsFromUser, {
+  IConversation,
+} from "../../hooks/UseConversation";
+import ConversationsDrawer from "../../components/conversationsDrawer";
+import useAllMessagesFromConversation, {
+  IMessage,
+} from "@/app/hooks/UseMessages";
+import useRegisterMessages from "../../hooks/UseRegisterMessage";
+import { TfiMenu } from "react-icons/tfi";
 
-function QuestionPage() {
+interface Props {
+  params: { id: string };
+}
+
+function QuestionPageId({ params }: Props) {
   const user = useUser();
+  const conversationId = params.id;
   const token = localStorage.getItem("token") || "";
   const [haveUser, setHaveUser] = useState(false);
-  const [conversationId, setConversationId] = useState('');
   const inputRef = useRef<any>(null);
-  const [firstMessage, setFirstMessage] = useState(true);
-  const { data, refetch } = useAllConversationsFromUser(user?.id, token);
-  const { mutate: registerMessage, isPending: isLoading } =
-    useRegisterMessages(token);
+  const { data: dataConversation, refetch } = useAllConversationsFromUser(user?.id, token);
+  const { mutate: registerMessage, isPending: isFetching } =
+  useRegisterMessages(token);
+  const { data, isLoading, isFetched } = useAllMessagesFromConversation(
+    params.id,
+    token
+  );
   const [msgInputValue, setMsgInputValue] = useState("");
-  const [messages, setMessages] = useState<any>([
+  const [messages, setMessages] = useState<any>([]);
+  const { mutate: requestQuestion, isPending } = useQuestion();
+  const [open, setOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState<boolean>();
+  const history = useRouter();
+
+  [
     {
       message:
         "Opa, sou o Gymmy, me pergunte qualquer coisa sobre exercícios que eu te ajudo.",
       direction: "ongoing",
     },
-  ]);
-  const { mutate: requestQuestion, isPending } = useQuestion();
-  const [open, setOpen] = useState(false);
-  const [isMobile, setIsMobile] = useState<boolean>();
-  const history = useRouter();
+  ];
+
+  useEffect(() => {
+    if (isFetched) {
+      setMessages(
+        data?.map((message: IMessage) => ({
+          message: message.message,
+          direction: message.sender,
+        }))
+      );
+    }
+  }, [isFetched, data]);
 
   useEffect(() => {
     if (!user) {
@@ -72,14 +97,14 @@ function QuestionPage() {
     setMsgInputValue("");
     registerMessage(
       {
-        firstMessage: firstMessage,
+        firstMessage: false,
         message: message,
         sender: "outgoing",
+        conversationId: conversationId,
         userId: user?.id,
       },
       {
         onSuccess: (registerData) => {
-          refetch();
           inputRef.current?.focus();
           requestQuestion(
             { question: message },
@@ -92,12 +117,10 @@ function QuestionPage() {
                 registerMessage({
                   firstMessage: false,
                   message: data,
-                  conversationId: registerData.conversationId,
+                  conversationId: conversationId,
                   sender: "ongoing",
                   userId: user?.id,
                 });
-                setFirstMessage(false);
-                setConversationId(registerData.conversationId);
               },
               onError: () => {
                 console.log("deu bom n");
@@ -111,24 +134,15 @@ function QuestionPage() {
 
   useEffect(() => {
     const isMobile = checkIsMobile();
+    console.log(isMobile);
     setIsMobile(isMobile);
   }, []);
 
-  useEffect(() => {
-    haveUser &&
-      Swal.fire({
-        title: "Importante",
-        text: "O Gymmy é uma ferramenta valiosa para seus treinos, porém é fundamental lembrar que ele não substitui a orientação de um profissional habilitado. Consulte sempre um especialista para garantir sua segurança e eficácia nos treinos. Bom treino!",
-        icon: "warning",
-        confirmButtonText: "Entendi",
-        confirmButtonColor: "black",
-      });
-  }, [haveUser]);
-
   return (
-    <Flex vertical>
-      <ConversationsDrawer refetch={refetch} selected={conversationId} data={data} isMobile={isMobile} open={open} onClose={onClose} />
-      <Flex
+    isFetched && (
+      <Flex vertical>
+        <ConversationsDrawer refetch={refetch} data={dataConversation} selected={conversationId} isMobile={isMobile} open={open} onClose={onClose} />
+        <Flex
         style={{ margin: "8px" }}
         gap={isMobile ? 50 : 200}
         align="center"
@@ -165,30 +179,31 @@ function QuestionPage() {
           Nova pergunta
         </Button>
       </Flex>
-      <Flex>
-        <ChatContainer style={{ height: "80vh", width: "100%" }}>
-          <MessageList
-            typingIndicator={
-              isPending && <TypingIndicator content="Gymmy está digitando" />
-            }
-          >
-            {messages.map((m: any, i: any) => (
-              <Message key={i} model={m} />
-            ))}
-          </MessageList>
-          <MessageInput
-            style={{ marginTop: "10px" }}
-            attachButton={false}
-            placeholder="digite sua duvida..."
-            onSend={handleSend}
-            onChange={setMsgInputValue}
-            value={msgInputValue}
-            ref={inputRef}
-          />
-        </ChatContainer>
+        <Flex>
+          <ChatContainer style={{ height: "80vh", width: "100%" }}>
+            <MessageList
+              typingIndicator={
+                isPending && <TypingIndicator content="Gymmy está digitando" />
+              }
+            >
+              {messages?.map((m: any, i: any) => (
+                <Message key={i} model={m} />
+              ))}
+            </MessageList>
+            <MessageInput
+              style={{ marginTop: "10px" }}
+              attachButton={false}
+              placeholder="digite sua duvida..."
+              onSend={handleSend}
+              onChange={setMsgInputValue}
+              value={msgInputValue}
+              ref={inputRef}
+            />
+          </ChatContainer>
+        </Flex>
       </Flex>
-    </Flex>
+    )
   );
 }
 
-export default QuestionPage;
+export default QuestionPageId;

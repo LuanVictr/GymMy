@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { Form, Input, Button } from "antd";
 import checkIsMobile from "@/app/hooks/isMobile";
 import { useRouter } from "next/navigation";
-import { notificateError, notificateSucess } from "@/components/notification";
+import { notificateError, notificateSucess } from "@/app/components/notification";
 import useRegister, { IUserRegister } from "@/app/hooks/UseRegister";
 
 export default function Register() {

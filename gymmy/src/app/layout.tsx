@@ -29,6 +29,9 @@ export default function RootLayout({
             colorLink: theme.colorPrimary,
             colorLinkHover: theme.colorPrimary,
           },
+          Drawer: {
+            fontFamily: quicksand.style.fontFamily
+          }
         },
       }}
     >

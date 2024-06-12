@@ -23,7 +23,7 @@ export const notificateSucess = (
     message: message,
     icon: <FaCircleCheck size={25} color="green" />,
     placement: 'top',
-    duration: 6,
+    duration: 3,
     closeIcon: null,
   });
 };

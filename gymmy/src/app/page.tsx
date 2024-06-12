@@ -1,7 +1,7 @@
 "use client"
 
 import { Button, Flex } from "antd";
-import Header from "@/components/header";
+import Header from "@/app/components/header";
 import useMedia from "use-media-antd-query";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";

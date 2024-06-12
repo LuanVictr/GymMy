@@ -20,7 +20,7 @@ async function loginService(userInfo:IUserLogin) {
    return false;
   }
 
-  const token = generateToken({name: userFound.name});
+  const token = generateToken({name: userFound.name, id: userFound.id});
 
   return token;
 }

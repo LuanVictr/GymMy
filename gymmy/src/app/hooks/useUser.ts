@@ -11,7 +11,7 @@ export default function useUser() {
     if (token) {
       try {
         const user = jwt.verify(token, secret) as JwtPayload;
-        return user.name;
+        return user;
       } catch (error) {
         console.error('Error verifying JWT:', error);
       }
@@ -22,6 +22,4 @@ export default function useUser() {
   } else {
     console.error('Window object is not defined. This code is meant to run in a browser environment.');
   }
-
-  return false;
 }
