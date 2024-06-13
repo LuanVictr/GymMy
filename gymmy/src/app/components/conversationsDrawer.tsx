@@ -8,6 +8,7 @@ import { Button, Collapse, CollapseProps, Drawer, Flex } from "antd";
 import ConversationConteiner from "./conversationConteiner";
 import { BiLogOut } from "react-icons/bi";
 import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 function ConversationsDrawer({
   open,
@@ -27,6 +28,7 @@ function ConversationsDrawer({
   const userInfo = useUser();
   const user = userInfo?.user;
   const token = userInfo?.token;
+  const history = useRouter();
 
   return (
     <Drawer
@@ -35,6 +37,7 @@ function ConversationsDrawer({
           <p>{user?.name}</p>
           <Button
             size={isMobile ? "middle" : "large"}
+            onClick={() => history.push('/')}
             style={{
               display: 'flex',
               alignItems:'center',

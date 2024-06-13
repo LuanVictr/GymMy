@@ -178,7 +178,7 @@ function QuestionPage() {
             ))}
           </MessageList>
           <MessageInput
-            style={{ marginTop: "10px" }}
+            style={{ marginTop: "10px", marginBottom: isMobile ? '30px' : '' }}
             attachButton={false}
             placeholder="digite sua duvida..."
             onSend={handleSend}
