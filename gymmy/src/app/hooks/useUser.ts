@@ -11,7 +11,8 @@ export default function useUser() {
     if (token) {
       try {
         const user = jwt.verify(token, secret) as JwtPayload;
-        return user;
+
+        return {user: user, token: token};
       } catch (error) {
         console.error('Error verifying JWT:', error);
       }

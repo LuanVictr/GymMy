@@ -24,8 +24,9 @@ function ConversationsDrawer({
   data: any;
   refetch: any;
 }) {
-  const user = useUser();
-  const token = localStorage.getItem("token") || "";
+  const userInfo = useUser();
+  const user = userInfo?.user;
+  const token = userInfo?.token;
 
   return (
     <Drawer

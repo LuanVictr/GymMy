@@ -15,7 +15,6 @@ export default function useAllMessagesFromConversation(id: string, token: string
 
   const requestMessages = async (id: string) => {
     const data = await axiosHttp.get(`/conversation/${id}/messages`, {headers: {Authorization: `Bearer ${token}`}});
-    console.log(data.data);
     return data.data;
   };
 

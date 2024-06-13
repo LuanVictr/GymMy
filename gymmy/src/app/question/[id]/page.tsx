@@ -1,4 +1,4 @@
-"use client";
+"use client"
 
 import "../styles.min.css";
 import { useEffect, useRef, useState } from "react";
@@ -34,17 +34,18 @@ interface Props {
 }
 
 function QuestionPageId({ params }: Props) {
-  const user = useUser();
+  const userInfo = useUser();
+  const user = userInfo?.user;
+  const token = userInfo?.token;
   const conversationId = params.id;
-  const token = localStorage.getItem("token") || "";
   const [haveUser, setHaveUser] = useState(false);
   const inputRef = useRef<any>(null);
-  const { data: dataConversation, refetch } = useAllConversationsFromUser(user?.id, token);
+  const { data: dataConversation, refetch } = useAllConversationsFromUser(user?.id, token ? token : '');
   const { mutate: registerMessage, isPending: isFetching } =
-  useRegisterMessages(token);
+  useRegisterMessages(token ? token : '');
   const { data, isLoading, isFetched } = useAllMessagesFromConversation(
     params.id,
-    token
+    token ? token : ''
   );
   const [msgInputValue, setMsgInputValue] = useState("");
   const [messages, setMessages] = useState<any>([]);

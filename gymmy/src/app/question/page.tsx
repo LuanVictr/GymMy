@@ -25,15 +25,16 @@ import ConversationsDrawer from "../components/conversationsDrawer";
 import useRegisterMessages from "../hooks/UseRegisterMessage";
 
 function QuestionPage() {
-  const user = useUser();
-  const token = localStorage.getItem("token") || "";
+  const userInfo = useUser();
+  const user = userInfo?.user;
+  const token = userInfo?.token;
   const [haveUser, setHaveUser] = useState(false);
   const [conversationId, setConversationId] = useState('');
   const inputRef = useRef<any>(null);
   const [firstMessage, setFirstMessage] = useState(true);
-  const { data, refetch } = useAllConversationsFromUser(user?.id, token);
+  const { data, refetch } = useAllConversationsFromUser(user?.id, token ? token : '');
   const { mutate: registerMessage, isPending: isLoading } =
-    useRegisterMessages(token);
+    useRegisterMessages(token ? token : '');
   const [msgInputValue, setMsgInputValue] = useState("");
   const [messages, setMessages] = useState<any>([
     {
